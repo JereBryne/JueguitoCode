@@ -1,5 +1,10 @@
+import muros.*
+import juego.*
+
+
 object paloma{
-    var property position = game.at(1,game.height())
+    const posicionX = 1
+    var property posicionY =4
     var version = vuelo1
     var property color = "Natural"
 
@@ -7,7 +12,26 @@ object paloma{
     method cambiarVersion() {
         version = version.siguiente()
     }
-    
+    method position() = game.at(posicionX,posicionY)
+
+    method subir() {
+        posicionY = 7.min(posicionY+1)
+    }
+    method bajar() {
+        posicionY = 0.max(posicionY-1)
+    }
+    method teclasMovimiento() {
+        keyboard.up().onPressDo({self.subir()})
+        keyboard.down().onPressDo({self.bajar()})
+    }
+    method teclasColor() {
+        keyboard.q().onPressDo({self.color("Azul")})
+        keyboard.w().onPressDo({self.color("Verde")})
+        keyboard.e().onPressDo({self.color("Rojo")})
+        keyboard.r().onPressDo({self.color("Amarillo")})
+        keyboard.n().onPressDo({self.color("Natural")})
+    }
+
 }
 
 object natural {

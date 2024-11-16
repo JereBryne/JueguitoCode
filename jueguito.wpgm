@@ -2,25 +2,16 @@ import wollok.game.*
 
 import paloma.*
 import muros.*
+import juego.*
+
 
 program PepitaGame {
-	game.cellSize(75)
-	game.height(8)
-	game.width(12)
 	
-	game.title("Pepita")
-	game.boardGround("fondo.png")
-	control.prueba()
+	juego.inicio()
 	
 	// game.showAttributes(paloma) //Debug
-	game.onTick(500,"cambio",{paloma.cambiarVersion()})
-	keyboard.q().onPressDo({paloma.color("Azul")})
-	keyboard.w().onPressDo({paloma.color("Verde")})
-	keyboard.e().onPressDo({paloma.color("Rojo")})
-	keyboard.r().onPressDo({paloma.color("Amarillo")})
-	keyboard.n().onPressDo({paloma.color("Natural")})
 	
-	keyboard.a().onPressDo({control.avanzarMuro()})
-	game.addVisualCharacter(paloma)
+	
+	
 	game.start()
 }

@@ -1,16 +1,5 @@
 import paloma.*
-
-
-object control {
-  const muro = new Muro()
-  method prueba() {
-    // muro.generarBloques()
-    muro.bloques().forEach({b=>game.addVisual(b)})
-  }
-  method avanzarMuro() {
-    muro.avanzar()
-  }
-}
+import juego.*
 
 class Muro{
     const property bloques = [
@@ -21,21 +10,24 @@ class Muro{
       self.nuevoComun(),
       self.nuevoComun(),
       self.nuevoComun(),
-      self.nuevoEspecial()
+      nuevoEspecial
     ]
     const property color = natural
     var posicionX = game.width()-1
-    const valoresY = [0,1,2,3,4,5,6,7]
-
+    const valoresY = [0,1,2,3,4,5,6,7]    
+    const property nuevoEspecial = new Especial(posicionX = posicionX,posicionY = self.valorY())
     method nuevoComun() = new Comun(posicionX = posicionX,posicionY = self.valorY())
-    method nuevoEspecial() = new Especial(posicionX = posicionX,posicionY = self.valorY())
-    
 
     method valorY() {
         const indiceRandom = valoresY.anyOne()
         const valor = indiceRandom
         valoresY.remove(indiceRandom)
         return valor
+    }
+    method posicionX() = posicionX
+    method mostrar(){
+      bloques.forEach({b=>game.removeVisual(b)})
+      bloques.forEach({b=>game.addVisual(b)})
     }
 
     method avanzar() {
@@ -54,8 +46,9 @@ class Bloque {
     }
 }
 class Comun inherits Bloque {
-    override method image() = "prueba.png"
+    override method image() = "paredNatural.png"
 }
 class Especial inherits Bloque {
-    override method image() = "prueba1.png"
+    override method image() = "bloqueVacio.png"
 }
+
