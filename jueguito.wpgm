@@ -12,7 +12,7 @@ program PepitaGame {
 	game.boardGround("fondo.png")
 	control.prueba()
 	
-	game.showAttributes(paloma) //Debug
+	// game.showAttributes(paloma) //Debug
 	game.onTick(500,"cambio",{paloma.cambiarVersion()})
 	keyboard.q().onPressDo({paloma.color("Azul")})
 	keyboard.w().onPressDo({paloma.color("Verde")})
@@ -20,7 +20,7 @@ program PepitaGame {
 	keyboard.r().onPressDo({paloma.color("Amarillo")})
 	keyboard.n().onPressDo({paloma.color("Natural")})
 	
-	keyboard.a().onPressDo({control.muro.avanzar()})
+	keyboard.a().onPressDo({control.avanzarMuro()})
 	game.addVisualCharacter(paloma)
 	game.start()
 }

@@ -4,33 +4,32 @@ import paloma.*
 object control {
   const muro = new Muro()
   method prueba() {
-    muro.generarBloques()
-    game.addVisual(muro.bloques().get(0))
+    // muro.generarBloques()
+    muro.bloques().forEach({b=>game.addVisual(b)})
   }
-  method avanzar() {
+  method avanzarMuro() {
     muro.avanzar()
   }
 }
 
 class Muro{
-    const property bloques = []
+    const property bloques = [
+      self.nuevoComun(),
+      self.nuevoComun(),
+      self.nuevoComun(),
+      self.nuevoComun(),
+      self.nuevoComun(),
+      self.nuevoComun(),
+      self.nuevoComun(),
+      self.nuevoEspecial()
+    ]
     const property color = natural
     var posicionX = game.width()-1
     const valoresY = [0,1,2,3,4,5,6,7]
 
-    method nuevoBloque() = new Bloque(posicionX = posicionX,posicionY = self.valorY())
+    method nuevoComun() = new Comun(posicionX = posicionX,posicionY = self.valorY())
     method nuevoEspecial() = new Especial(posicionX = posicionX,posicionY = self.valorY())
-    method generarBloques(){
-        bloques.clear()
-        bloques.add(bloques.add(self.nuevoBloque()))
-        bloques.add(bloques.add(self.nuevoBloque()))
-        bloques.add(bloques.add(self.nuevoBloque()))
-        bloques.add(bloques.add(self.nuevoBloque()))
-        bloques.add(bloques.add(self.nuevoBloque()))
-        bloques.add(bloques.add(self.nuevoBloque()))
-        bloques.add(bloques.add(self.nuevoBloque()))        
-        bloques.add(bloques.add(self.nuevoEspecial()))
-    }
+    
 
     method valorY() {
         const indiceRandom = valoresY.anyOne()
@@ -39,19 +38,24 @@ class Muro{
         return valor
     }
 
-    method avazar() {
+    method avanzar() {
       posicionX -= 1
-      bloques.forEach({b=>b.posicionX(posicionX) })
+      bloques.forEach({b=>b.cambiarX(posicionX) })
     }
 }
 
 class Bloque {
     var property posicionX
     const property posicionY
-    method image() = "prueba.png"
+    method image()
     var property position = game.at(posicionX,posicionY)
+    method cambiarX(unValor){
+      position = game.at(unValor,posicionY)
+    }
 }
-class Comun inherits Bloque {}
+class Comun inherits Bloque {
+    override method image() = "prueba.png"
+}
 class Especial inherits Bloque {
     override method image() = "prueba1.png"
 }
