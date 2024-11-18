@@ -34,7 +34,16 @@ class Muro{
       posicionX -= 1
       bloques.forEach({b=>b.cambiarX(posicionX) })
     }
+    method eliminar() {
+      bloques.forEach({b=>b.eliminar()})
+    }
 }
+object eliminador {
+  var property position = game.at(-2,2)
+  method image() = "vidrioAmarillo.png"
+}
+
+
 
 class Bloque {
     var property posicionX
@@ -44,11 +53,27 @@ class Bloque {
     method cambiarX(unValor){
       position = game.at(unValor,posicionY)
     }
+    method eliminar() {
+      game.removeVisual(self)
+    }
+    method interaccionPaloma()
+    method interaccionEliminar() {
+      juego.eliminarMuro()
+    } 
+
 }
 class Comun inherits Bloque {
     override method image() = "paredNatural.png"
+    override method interaccionPaloma() {
+      juego.perder()
+    }
 }
 class Especial inherits Bloque {
     override method image() = "bloqueVacio.png"
+    override method interaccionPaloma() {
+      juego.sumarPunto()
+      paloma.decirPuntos()
+    } 
 }
+
 

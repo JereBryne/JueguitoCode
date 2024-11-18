@@ -5,7 +5,6 @@ import muros.*
 object juego {
   const muros = []
   var juegoIniciado = false
-  var tiempo = 1000
   var puntos = 0
   method inicio() {
     self.presentacion()
@@ -34,18 +33,26 @@ object juego {
         }
     })
   }
+  
+  method perder() {
+    game.removeVisual(game.allVisuals())
+    game.addVisual(pantallaPerder)
+    game.removeVisual(paloma)
+    game.removeTickEvent("AvanzarMuros")
+    game.removeTickEvent("HacerMuros")
+  }
+
   method facil() {
     game.removeVisual(pantallaPresentacion)
     self.configurarTeclasFacil()
     game.onTick(500,"cambio",{paloma.cambiarVersion()})
     game.addVisual(paloma)
     self.hacerMuro()
-    game.onTick(tiempo, "muro", {self.avanzarMuros()})
-    game.onTick(tiempo*3, "muro", {self.hacerMuro()})
-    game.onCollideDo(self.especialPrimerMuro(), {a=>
-        self.sumarPunto()
-        game.say(paloma,self.puntosString())})
-    
+    game.addVisual(eliminador)
+    game.onTick(self.tiempo(), "AvanzarMuros", {self.avanzarMuros()})
+    game.onTick(self.tiempo()*3, "HacerMuros", {self.hacerMuro()})
+    game.onCollideDo(paloma, {objeto=>objeto.interaccionPaloma()})
+    game.whenCollideDo(eliminador, {b=>b.interaccionEliminar()})
   }
   method dificil() {
     game.removeVisual(pantallaPresentacion)
@@ -58,6 +65,12 @@ object juego {
     muros.add(new Muro())
     self.mostrarMuros()
   }
+  
+  method eliminarMuro() {
+    const muro = muros.find({f=>f.posicionX()==-2})
+    muro.eliminar()
+    muros.remove(muro)
+  }
 
   method mostrarMuros() {
     muros.forEach{m=>m.mostrar()} 
@@ -65,30 +78,35 @@ object juego {
   method avanzarMuros() {
     muros.forEach{m=>m.avanzar()} 
   }
+  method tiempo() {
+    return 600
+  }
 
   method especialPrimerMuro() = muros.first().nuevoEspecial()
 
   method sumarPunto() {
     puntos +=1
   }
+  method reiniciarPuntos() {
+    puntos = 0
+  }
   method puntosString() = puntos.toString()
 
   method configurarTeclasFacil() {
     paloma.teclasMovimiento()
-    keyboard.z().onPressDo({self.mostrarMuros()})
-    keyboard.m().onPressDo({self.hacerMuro()})
-    keyboard.a().onPressDo({self.avanzarMuros()})
   }
 
   method configurarTeclasDificil() {
     paloma.teclasMovimiento()
     paloma.teclasColor()
-    keyboard.z().onPressDo({self.mostrarMuros()})
-    keyboard.m().onPressDo({self.hacerMuro()})
-    keyboard.a().onPressDo({self.avanzarMuros()})
   }
 }
 object pantallaPresentacion {
   method image() = "presentacion.png"
+  method position() = game.at(0,0)
+}
+
+object pantallaPerder {
+  method image() = "perder.png"
   method position() = game.at(0,0)
 }
