@@ -12,11 +12,17 @@ class Muro{
       self.nuevoComun(),
       nuevoEspecial
     ]
-    const property color = natural
+    const property color
     var posicionX = game.width()-1
     const valoresY = [0,1,2,3,4,5,6,7]    
-    const property nuevoEspecial = new Especial(posicionX = posicionX,posicionY = self.valorY())
-    method nuevoComun() = new Comun(posicionX = posicionX,posicionY = self.valorY())
+    const property nuevoEspecial = new Especial(
+                                      posicionX = posicionX,
+                                      posicionY = self.valorY(),
+                                      color = color)
+    method nuevoComun() = new Comun(
+                              posicionX = posicionX,
+                              posicionY = self.valorY(),
+                              color = color)
 
     method valorY() {
         const indiceRandom = valoresY.anyOne()
@@ -38,6 +44,8 @@ class Muro{
       bloques.forEach({b=>b.eliminar()})
     }
 }
+
+
 object eliminador {
   var property position = game.at(-2,2)
   method image() = "vidrioAmarillo.png"
@@ -48,6 +56,7 @@ object eliminador {
 class Bloque {
     var property posicionX
     const property posicionY
+    const color
     method image()
     var property position = game.at(posicionX,posicionY)
     method cambiarX(unValor){
@@ -63,17 +72,22 @@ class Bloque {
 
 }
 class Comun inherits Bloque {
-    override method image() = "paredNatural.png"
+    override method image() = "pared"+color.color()+".png"
     override method interaccionPaloma() {
       juego.perder()
     }
 }
 class Especial inherits Bloque {
-    override method image() = "bloqueVacio.png"
+    override method image() = "vidrio"+color.color()+".png"
     override method interaccionPaloma() {
-      juego.sumarPunto()
-      paloma.decirPuntos()
+      if (paloma.color() == color){
+        juego.sumarPunto()
+        paloma.decirPuntos()
+      } else {
+        juego.perder()
+      }
     } 
-}
+} 
+
 
 

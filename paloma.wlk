@@ -6,9 +6,9 @@ object paloma{
     const posicionX = 1
     var property posicionY =4
     var version = vuelo1
-    var property color = "Natural"
+    var property color = natural
 
-    method image() = "paloma"+color+version.version()+ ".png"
+    method image() = "paloma"+color.color()+version.version()+ ".png"
     method cambiarVersion() {
         version = version.siguiente()
     }
@@ -25,11 +25,11 @@ object paloma{
         keyboard.down().onPressDo({self.bajar()})
     }
     method teclasColor() {
-        keyboard.q().onPressDo({self.color("Azul")})
-        keyboard.w().onPressDo({self.color("Verde")})
-        keyboard.e().onPressDo({self.color("Rojo")})
-        keyboard.r().onPressDo({self.color("Amarillo")})
-        keyboard.n().onPressDo({self.color("Natural")})
+        keyboard.w().onPressDo({self.color(azul)})
+        keyboard.a().onPressDo({self.color(verde)})
+        keyboard.s().onPressDo({self.color(rojo)})
+        keyboard.d().onPressDo({self.color(amarillo)})
+        keyboard.n().onPressDo({self.color(natural)})
     }
     method decirPuntos() {
       game.say(self, juego.puntosString())
@@ -39,6 +39,20 @@ object paloma{
 object natural {
   method color() = "Natural"
 }
+
+object azul {
+  method color() = "Azul"
+}
+object verde {
+  method color() = "Verde"
+}
+object rojo {
+  method color() = "Rojo"
+}
+object amarillo {
+  method color() = "Amarillo"
+}
+
 
 object vuelo1 {
     method version() = "V1"

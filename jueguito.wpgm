@@ -4,7 +4,6 @@ import paloma.*
 import muros.*
 import juego.*
 
-
 program PepitaGame {
 	
 	juego.inicio()

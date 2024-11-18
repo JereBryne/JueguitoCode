@@ -1,11 +1,13 @@
 import paloma.*
 import muros.*
+import dificultades.*
 
 
 object juego {
   const muros = []
   var juegoIniciado = false
   var puntos = 0
+  var dificultad = 0
   method inicio() {
     self.presentacion()
     self.prepararTablero()
@@ -22,14 +24,16 @@ object juego {
     game.addVisual(pantallaPresentacion)
     keyboard.f().onPressDo({
         if (!juegoIniciado){
-            self.facil()
             juegoIniciado = true
+            dificultad = facil
+            self.jugar()
         }
         })
     keyboard.d().onPressDo({
         if (!juegoIniciado){
-            self.dificil()
             juegoIniciado = true
+            dificultad = dificil
+            self.jugar()
         }
     })
   }
@@ -42,28 +46,28 @@ object juego {
     game.removeTickEvent("HacerMuros")
   }
 
-  method facil() {
-    game.removeVisual(pantallaPresentacion)
-    self.configurarTeclasFacil()
-    game.onTick(500,"cambio",{paloma.cambiarVersion()})
-    game.addVisual(paloma)
-    self.hacerMuro()
-    game.addVisual(eliminador)
+  method jugar() {
+    self.baseJuego()
+    dificultad.hacerMuro()
     game.onTick(self.tiempo(), "AvanzarMuros", {self.avanzarMuros()})
-    game.onTick(self.tiempo()*3, "HacerMuros", {self.hacerMuro()})
+    game.onTick(self.tiempo()*3, "HacerMuros", {dificultad.hacerMuro()})
     game.onCollideDo(paloma, {objeto=>objeto.interaccionPaloma()})
     game.whenCollideDo(eliminador, {b=>b.interaccionEliminar()})
   }
   method dificil() {
+    self.baseJuego()
+  }
+
+  method baseJuego() {
     game.removeVisual(pantallaPresentacion)
-    self.configurarTeclasDificil()
     game.onTick(500,"cambio",{paloma.cambiarVersion()})
     game.addVisual(paloma)
+    game.addVisual(eliminador)
+    dificultad.configurarTeclas()
   }
   
-  method hacerMuro() {
-    muros.add(new Muro())
-    self.mostrarMuros()
+  method agregarMuro(unMuro) {
+    muros.add(unMuro)
   }
   
   method eliminarMuro() {
@@ -79,7 +83,7 @@ object juego {
     muros.forEach{m=>m.avanzar()} 
   }
   method tiempo() {
-    return 600
+    return 1000
   }
 
   method especialPrimerMuro() = muros.first().nuevoEspecial()
@@ -92,14 +96,9 @@ object juego {
   }
   method puntosString() = puntos.toString()
 
-  method configurarTeclasFacil() {
-    paloma.teclasMovimiento()
-  }
+  
 
-  method configurarTeclasDificil() {
-    paloma.teclasMovimiento()
-    paloma.teclasColor()
-  }
+  
 }
 object pantallaPresentacion {
   method image() = "presentacion.png"
