@@ -18,7 +18,7 @@ object juego {
     game.cellSize(75)
     game.height(8)
     game.width(12)
-    game.title("Jueguito")
+    game.title("FlyPichon")
     game.boardGround("fondo.png")
     muros.clear()
     self.reiniciarPuntos()
