@@ -48,7 +48,6 @@ object juego {
     game.removeVisual(paloma)
     game.removeTickEvent("AvanzarMuros")
     game.removeTickEvent("HacerMuros")
-    puntos.mostrarPuntos(puntosActuales)
   }
   
   method jugar() {
