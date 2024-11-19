@@ -7,8 +7,8 @@ object facil{
         juego.mostrarMuros()
     }
     method configurarTeclas() {
-    paloma.teclasMovimiento()
-  }
+        paloma.teclasMovimiento()
+    }
 }
 object dificil {
     const colores = [azul,rojo,verde,amarillo]
@@ -19,7 +19,7 @@ object dificil {
 
     method colorRandom() = colores.anyOne()
     method configurarTeclas() {
-    paloma.teclasMovimiento()
-    paloma.teclasColor()
+        paloma.teclasMovimiento()
+        paloma.teclasColor()
   }
 }

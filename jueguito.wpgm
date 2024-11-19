@@ -3,14 +3,12 @@ import wollok.game.*
 import paloma.*
 import muros.*
 import juego.*
+import puntos.*
 
 program PepitaGame {
 	
-	juego.inicio()
-	
+	juego.inicio()	
 	// game.showAttributes(paloma) //Debug
-	
-	
-	
+
 	game.start()
 }

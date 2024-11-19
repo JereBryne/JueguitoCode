@@ -13,7 +13,7 @@ class Muro{
       nuevoEspecial
     ]
     const property color
-    var posicionX = game.width()-1
+    var posicionX = game.width()-2
     const valoresY = [0,1,2,3,4,5,6,7]    
     const property nuevoEspecial = new Especial(
                                       posicionX = posicionX,
@@ -47,8 +47,8 @@ class Muro{
 
 
 object eliminador {
-  var property position = game.at(-2,2)
-  method image() = "vidrioAmarillo.png"
+  var property position = game.at(-1,2)
+  method image() = "bloqueVacio.png"
 }
 
 
