@@ -9,6 +9,5 @@ program PepitaGame {
 	
 	juego.inicio()	
 	// game.showAttributes(paloma) //Debug
-
 	game.start()
 }

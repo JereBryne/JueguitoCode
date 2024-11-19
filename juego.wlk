@@ -1,19 +1,19 @@
 import paloma.*
 import muros.*
-import dificultades.*
+import configuraciones.*
 import puntos.*
-
-
 
 object juego {
   const muros = []
   var juegoIniciado = false
-  var puntos = 0
+  var puntosActuales = 0
   var dificultad = 0
+  
   method inicio() {
     self.prepararTablero()
     self.presentacion()
   }
+  
   method prepararTablero() {
     game.cellSize(75)
     game.height(8)
@@ -22,22 +22,23 @@ object juego {
     game.boardGround("fondo.png")
     muros.clear()
   }
-  method presentacion(){
+  
+  method presentacion() {
     game.addVisual(pantallaPresentacion)
-    keyboard.f().onPressDo({
-        if (!juegoIniciado){
-            juegoIniciado = true
-            dificultad = facil
-            self.jugar()
-        }
-        })
-    keyboard.d().onPressDo({
-        if (!juegoIniciado){
-            juegoIniciado = true
-            dificultad = dificil
-            self.jugar()
-        }
-    })
+    keyboard.f().onPressDo(
+      { if (!juegoIniciado) {
+          juegoIniciado = true
+          dificultad = facil
+          self.jugar()
+        } }
+    )
+    keyboard.d().onPressDo(
+      { if (!juegoIniciado) {
+          juegoIniciado = true
+          dificultad = dificil
+          self.jugar()
+        } }
+    )
   }
   
   method perder() {
@@ -47,23 +48,24 @@ object juego {
     game.removeTickEvent("AvanzarMuros")
     game.removeTickEvent("HacerMuros")
   }
-
+  
   method jugar() {
     self.baseJuego()
     dificultad.hacerMuro()
-    game.onTick(self.tiempo(), "AvanzarMuros", {self.avanzarMuros()})
-    game.onTick(self.tiempo()*3, "HacerMuros", {dificultad.hacerMuro()})
+    game.onTick(self.tiempo(), "AvanzarMuros", { self.avanzarMuros() })
+    game.onTick(self.tiempo() * 3, "HacerMuros", { dificultad.hacerMuro() })
     textoPuntos.mostrarPuntos()
-    game.onCollideDo(paloma, {objeto=>objeto.interaccionPaloma()})
-    game.onCollideDo(eliminador, {b=>b.interaccionEliminar()})
+    game.onCollideDo(paloma, { objeto => objeto.interaccionPaloma() })
+    game.onCollideDo(eliminador, { b => b.interaccionEliminar() })
   }
+  
   method dificil() {
     self.baseJuego()
   }
-
+  
   method baseJuego() {
     game.removeVisual(pantallaPresentacion)
-    game.onTick(500,"cambio",{paloma.cambiarVersion()})
+    game.onTick(500, "cambio", { paloma.cambiarVersion() })
     game.addVisual(paloma)
     game.addVisual(eliminador)
     dificultad.configurarTeclas()
@@ -74,41 +76,50 @@ object juego {
   }
   
   method eliminarMuro() {
-    const muro = muros.find({f=>f.posicionX()==eliminador.position().x()})
+    const muro = muros.find({ f => f.posicionX() == eliminador.position().x() })
     muro.eliminar()
     muros.remove(muro)
   }
-
+  
   method mostrarMuros() {
-    muros.forEach{m=>m.mostrar()} 
+    muros.forEach({ m => m.mostrar() })
   }
+  
   method avanzarMuros() {
-    muros.forEach{m=>m.avanzar()} 
+    muros.forEach({ m => m.avanzar() })
   }
-  method tiempo() {
-    return 1000
-  }
-
+  
+  method tiempo() = 750
+  
   method especialPrimerMuro() = muros.first().nuevoEspecial()
-
+  
   method puntos() = puntos
+  
   method sumarPunto() {
-    puntos +=1
+    puntos.sacarPuntos(puntosActuales)
+    puntosActuales += 1
+    puntos.mostrarPuntos(puntosActuales)
   }
+  
   method mostrarPuntos() {
     
   }
+  
   method reiniciarPuntos() {
-    puntos = 0
+    puntosActuales = 0
   }
+  
   method puntosString() = puntos.toString()
 }
+
 object pantallaPresentacion {
   method image() = "presentacion.png"
-  method position() = game.at(0,0)
+  
+  method position() = game.at(0, 0)
 }
 
 object pantallaPerder {
   method image() = "perder.png"
-  method position() = game.at(0,0)
+  
+  method position() = game.at(0, 0)
 }
