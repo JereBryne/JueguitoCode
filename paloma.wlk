@@ -34,11 +34,7 @@ object paloma {
     keyboard.a().onPressDo({ self.color(verde) })
     keyboard.s().onPressDo({ self.color(rojo) })
     keyboard.d().onPressDo({ self.color(amarillo) })
-    keyboard.n().onPressDo({ self.color(natural) })
   }
-  
-  method decirPuntos() {
-    game.say(self, juego.puntosString())
-  }
+
 }
 

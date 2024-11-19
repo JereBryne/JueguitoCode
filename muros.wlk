@@ -95,7 +95,6 @@ class Especial inherits Bloque {
   override method interaccionPaloma() {
     if (paloma.color() == color) {
       juego.sumarPunto()
-      paloma.decirPuntos()
     } else {
       juego.perder()
     }

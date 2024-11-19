@@ -21,18 +21,19 @@ object juego {
     game.title("Jueguito")
     game.boardGround("fondo.png")
     muros.clear()
+    self.reiniciarPuntos()
   }
   
   method presentacion() {
     game.addVisual(pantallaPresentacion)
-    keyboard.f().onPressDo(
+    keyboard.e().onPressDo(
       { if (!juegoIniciado) {
           juegoIniciado = true
           dificultad = facil
           self.jugar()
         } }
     )
-    keyboard.d().onPressDo(
+    keyboard.h().onPressDo(
       { if (!juegoIniciado) {
           juegoIniciado = true
           dificultad = dificil
@@ -47,6 +48,7 @@ object juego {
     game.removeVisual(paloma)
     game.removeTickEvent("AvanzarMuros")
     game.removeTickEvent("HacerMuros")
+    puntos.mostrarPuntos(puntosActuales)
   }
   
   method jugar() {
@@ -69,6 +71,7 @@ object juego {
     game.addVisual(paloma)
     game.addVisual(eliminador)
     dificultad.configurarTeclas()
+    puntos.iniciarPuntos()
   }
   
   method agregarMuro(unMuro) {
@@ -93,16 +96,10 @@ object juego {
   
   method especialPrimerMuro() = muros.first().nuevoEspecial()
   
-  method puntos() = puntos
-  
   method sumarPunto() {
     puntos.sacarPuntos(puntosActuales)
     puntosActuales += 1
     puntos.mostrarPuntos(puntosActuales)
-  }
-  
-  method mostrarPuntos() {
-    
   }
   
   method reiniciarPuntos() {

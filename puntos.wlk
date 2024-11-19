@@ -28,6 +28,10 @@ object puntos {
     new Unidad(valor = 8),
     new Unidad(valor = 9)
   ]
+  method iniciarPuntos() {
+    game.addVisual(decenas.find({ d => d.valor() ==0 }))
+    game.addVisual(unidades.find({ u => u.valor() == 0 }))
+  }
   
   method mostrarPuntos(unValor) {
     const decena = unValor.div(10)
